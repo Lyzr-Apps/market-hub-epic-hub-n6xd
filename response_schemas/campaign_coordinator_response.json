@@ -1,0 +1,94 @@
+{
+  "agent_name": "Campaign Coordinator",
+  "agent_id": "69a1d24f64718f82ff22f3ab",
+  "description": "Orchestrates the campaign generation workflow by routing the brief to research and content sub-agents, then aggregating their outputs into a unified campaign draft for user review.",
+  "agent_type": "json",
+  "accessor": "result",
+  "auto_generated": true,
+  "response_schema": {
+    "executive_summary": "string",
+    "research_insights": {
+      "trends": [
+        {
+          "trend": "string",
+          "relevance": "string",
+          "recommendation": "string"
+        }
+      ],
+      "competitor_insights": [
+        {
+          "competitor": "string",
+          "activity": "string",
+          "takeaway": "string"
+        }
+      ],
+      "audience_insights": "string",
+      "recommended_hashtags": [
+        "string"
+      ],
+      "timing_recommendation": "string"
+    },
+    "social_posts": [
+      {
+        "platform": "string",
+        "content": "string",
+        "hashtags": "string"
+      }
+    ],
+    "email_campaign": {
+      "subject_line": "string",
+      "preview_text": "string",
+      "body": "string",
+      "cta": "string"
+    },
+    "taglines": [
+      "string"
+    ],
+    "key_messages": [
+      "string"
+    ]
+  },
+  "example_response": {
+    "executive_summary": "sample string",
+    "research_insights": {
+      "trends": [
+        {
+          "trend": "sample string",
+          "relevance": "sample string",
+          "recommendation": "sample string"
+        }
+      ],
+      "competitor_insights": [
+        {
+          "competitor": "sample string",
+          "activity": "sample string",
+          "takeaway": "sample string"
+        }
+      ],
+      "audience_insights": "sample string",
+      "recommended_hashtags": [
+        "sample string"
+      ],
+      "timing_recommendation": "sample string"
+    },
+    "social_posts": [
+      {
+        "platform": "sample string",
+        "content": "sample string",
+        "hashtags": "sample string"
+      }
+    ],
+    "email_campaign": {
+      "subject_line": "sample string",
+      "preview_text": "sample string",
+      "body": "sample string",
+      "cta": "sample string"
+    },
+    "taglines": [
+      "sample string"
+    ],
+    "key_messages": [
+      "sample string"
+    ]
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "nodes": [
+    {
+      "id": "input_node",
+      "type": "Input",
+      "label": "Campaign Brief",
+      "nodeCategory": "input"
+    },
+    {
+      "id": "campaign_coordinator",
+      "type": "Agent",
+      "label": "Campaign Coordinator",
+      "nodeCategory": "agent",
+      "agent_id": "69a1d24f64718f82ff22f3ab"
+    },
+    {
+      "id": "trend_research_agent",
+      "type": "Agent",
+      "label": "Trend Research Agent",
+      "nodeCategory": "agent",
+      "agent_id": "69a1d23c030dec256cffea25"
+    },
+    {
+      "id": "content_creator_agent",
+      "type": "Agent",
+      "label": "Content Creator Agent",
+      "nodeCategory": "agent",
+      "agent_id": "69a1d23c030dec256cffea27"
+    },
+    {
+      "id": "campaign_distributor",
+      "type": "Agent",
+      "label": "Campaign Distributor Agent",
+      "nodeCategory": "agent",
+      "agent_id": "69a1d284ddd8356cffb7954a"
+    },
+    {
+      "id": "team_sync_agent",
+      "type": "Agent",
+      "label": "Team Sync Agent",
+      "nodeCategory": "agent",
+      "agent_id": "69a1d2843ab18859fbddcd5a"
+    },
+    {
+      "id": "output_node",
+      "type": "Output",
+      "label": "Campaign Output",
+      "nodeCategory": "end"
+    }
+  ],
+  "edges": [
+    {
+      "source": "input_node",
+      "target": "campaign_coordinator"
+    },
+    {
+      "source": "campaign_coordinator",
+      "target": "trend_research_agent"
+    },
+    {
+      "source": "campaign_coordinator",
+      "target": "content_creator_agent"
+    },
+    {
+      "source": "campaign_coordinator",
+      "target": "campaign_distributor"
+    },
+    {
+      "source": "input_node",
+      "target": "team_sync_agent"
+    },
+    {
+      "source": "campaign_distributor",
+      "target": "output_node"
+    },
+    {
+      "source": "team_sync_agent",
+      "target": "output_node"
+    }
+  ]
+}

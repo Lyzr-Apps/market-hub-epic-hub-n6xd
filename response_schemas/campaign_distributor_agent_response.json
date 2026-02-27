@@ -1,0 +1,50 @@
+{
+  "agent_name": "Campaign Distributor Agent",
+  "agent_id": "69a1d284ddd8356cffb7954a",
+  "description": "Distributes approved campaign content across channels \u2014 posts to Twitter, sends emails via Gmail, and notifies the team on Slack.",
+  "agent_type": "json",
+  "accessor": "result",
+  "auto_generated": true,
+  "response_schema": {
+    "distribution_status": {
+      "twitter": {
+        "success": "boolean",
+        "message": "string"
+      },
+      "gmail": {
+        "success": "boolean",
+        "message": "string"
+      },
+      "slack": {
+        "success": "boolean",
+        "message": "string"
+      }
+    },
+    "summary": "string"
+  },
+  "example_response": {
+    "distribution_status": {
+      "twitter": {
+        "success": false,
+        "message": "sample string"
+      },
+      "gmail": {
+        "success": false,
+        "message": "sample string"
+      },
+      "slack": {
+        "success": false,
+        "message": "sample string"
+      }
+    },
+    "summary": "sample string"
+  },
+  "has_module_outputs": true,
+  "module_outputs_example": {
+    "artifact_files": [
+      {
+        "file_url": "https://example.com/image.png"
+      }
+    ]
+  }
+}

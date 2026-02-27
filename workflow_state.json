@@ -1,0 +1,79 @@
+{
+  "agents": {
+    "trend_research_agent": {
+      "agent_id": "69a1d23c030dec256cffea25",
+      "name": "Trend Research Agent",
+      "type": "sub-agent",
+      "provider": "Perplexity",
+      "model": "sonar-pro",
+      "tools": [],
+      "managed_by": "69a1d24f64718f82ff22f3ab"
+    },
+    "content_creator_agent": {
+      "agent_id": "69a1d23c030dec256cffea27",
+      "name": "Content Creator Agent",
+      "type": "sub-agent",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "tools": [],
+      "managed_by": "69a1d24f64718f82ff22f3ab"
+    },
+    "campaign_coordinator": {
+      "agent_id": "69a1d24f64718f82ff22f3ab",
+      "name": "Campaign Coordinator",
+      "type": "manager",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "tools": [],
+      "managed_agents": [
+        "69a1d23c030dec256cffea25",
+        "69a1d23c030dec256cffea27"
+      ]
+    },
+    "campaign_distributor": {
+      "agent_id": "69a1d284ddd8356cffb7954a",
+      "name": "Campaign Distributor Agent",
+      "type": "independent",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "tools": [
+        {
+          "tool_name": "twitter",
+          "actions": ["TWITTER_CREATION_OF_A_POST"]
+        },
+        {
+          "tool_name": "gmail",
+          "actions": ["GMAIL_SEND_EMAIL"]
+        },
+        {
+          "tool_name": "slack",
+          "actions": ["SLACK_CHAT_POST_MESSAGE", "SLACK_FIND_CHANNELS"]
+        }
+      ]
+    },
+    "team_sync_agent": {
+      "agent_id": "69a1d2843ab18859fbddcd5a",
+      "name": "Team Sync Agent",
+      "type": "independent",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "tools": [
+        {
+          "tool_name": "slack",
+          "actions": ["SLACK_CHAT_POST_MESSAGE", "SLACK_FIND_CHANNELS"]
+        },
+        {
+          "tool_name": "googlecalendar",
+          "actions": ["GOOGLECALENDAR_CREATE_EVENT", "GOOGLECALENDAR_LIST_CALENDARS"]
+        }
+      ]
+    }
+  },
+  "response_schemas": {
+    "trend_research_agent": "response_schemas/trend_research_agent_response.json",
+    "content_creator_agent": "response_schemas/content_creator_agent_response.json",
+    "campaign_coordinator": "response_schemas/campaign_coordinator_response.json",
+    "campaign_distributor": "response_schemas/campaign_distributor_agent_response.json",
+    "team_sync_agent": "response_schemas/team_sync_agent_response.json"
+  }
+}

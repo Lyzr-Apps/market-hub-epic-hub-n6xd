@@ -1,0 +1,20 @@
+{
+  "agent_name": "Team Sync Agent",
+  "agent_id": "69a1d2843ab18859fbddcd5a",
+  "description": "Handles team collaboration tasks including sending Slack messages for campaign updates and creating Google Calendar events for campaign meetings.",
+  "agent_type": "json",
+  "accessor": "result",
+  "auto_generated": true,
+  "response_schema": {
+    "action_type": "string",
+    "status": "string",
+    "details": "string",
+    "channel_or_calendar": "string"
+  },
+  "example_response": {
+    "action_type": "sample string",
+    "status": "sample string",
+    "details": "sample string",
+    "channel_or_calendar": "sample string"
+  }
+}
