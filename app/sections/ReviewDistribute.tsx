@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
-import { FiSend, FiChevronDown, FiChevronUp, FiCheck, FiX, FiLoader, FiHash, FiClock, FiUsers, FiTrendingUp } from 'react-icons/fi'
+import { FiSend, FiChevronDown, FiChevronUp, FiCheck, FiX, FiLoader, FiHash, FiClock, FiUsers, FiTrendingUp, FiImage, FiDownload, FiExternalLink } from 'react-icons/fi'
 import { BsTwitterX } from 'react-icons/bs'
 import { SiSlack, SiGmail } from 'react-icons/si'
 
@@ -29,6 +29,8 @@ export interface CampaignData {
   email_campaign?: { subject_line?: string; preview_text?: string; body?: string; cta?: string }
   taglines?: string[]
   key_messages?: string[]
+  image_description?: string
+  campaign_images?: string[]
 }
 
 export interface DistributionResult {
@@ -94,6 +96,10 @@ const SAMPLE_CAMPAIGN: CampaignData = {
     'Trusted by 500+ enterprises worldwide',
     'Enterprise-grade security with platform-agnostic integration',
     'Outperforms competitors in workflow automation benchmarks',
+  ],
+  image_description: 'A sleek, modern banner featuring AI productivity tools with a futuristic blue-orange gradient background and abstract circuit patterns.',
+  campaign_images: [
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop'
   ],
 }
 
@@ -183,6 +189,7 @@ export default function ReviewDistribute({ campaignData, onDistribute, isDistrib
   const hashtags = Array.isArray(data.research_insights?.recommended_hashtags) ? data.research_insights.recommended_hashtags : []
   const taglines = Array.isArray(data.taglines) ? data.taglines : []
   const keyMessages = Array.isArray(data.key_messages) ? data.key_messages : []
+  const campaignImages = Array.isArray(data.campaign_images) ? data.campaign_images : []
 
   return (
     <div className="space-y-6">
@@ -286,6 +293,10 @@ export default function ReviewDistribute({ campaignData, onDistribute, isDistrib
           <TabsTrigger value="social" className="flex-1 rounded-[0.875rem]">Social Posts</TabsTrigger>
           <TabsTrigger value="email" className="flex-1 rounded-[0.875rem]">Email Copy</TabsTrigger>
           <TabsTrigger value="taglines" className="flex-1 rounded-[0.875rem]">Taglines</TabsTrigger>
+          <TabsTrigger value="visuals" className="flex-1 rounded-[0.875rem] gap-1.5">
+            <FiImage className="h-3.5 w-3.5" />
+            Visuals
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="social" className="mt-4">
@@ -397,6 +408,81 @@ export default function ReviewDistribute({ campaignData, onDistribute, isDistrib
               )}
               {taglines.length === 0 && keyMessages.length === 0 && (
                 <p className="text-sm text-muted-foreground text-center py-4">No taglines or key messages generated</p>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="visuals" className="mt-4">
+          <Card className="bg-card/75 backdrop-blur-[16px] border-border rounded-[0.875rem]">
+            <CardContent className="pt-5 space-y-5">
+              <div className="flex items-center gap-2 mb-1">
+                <FiImage className="h-5 w-5 text-primary" />
+                <p className="text-sm font-semibold text-foreground">Campaign Visuals</p>
+                <Badge variant="secondary" className="rounded-full text-[10px] ml-auto">AI Generated</Badge>
+              </div>
+
+              {data.image_description && (
+                <div className="p-3 rounded-[0.875rem] bg-primary/5 border border-primary/10">
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">Image Description</p>
+                  <p className="text-sm text-foreground">{data.image_description}</p>
+                </div>
+              )}
+
+              {campaignImages.length > 0 ? (
+                <div className="space-y-4">
+                  {campaignImages.map((imageUrl, idx) => (
+                    <div key={idx} className="space-y-3">
+                      <div className="relative group rounded-[0.875rem] overflow-hidden border border-border bg-background/60">
+                        <img
+                          src={imageUrl}
+                          alt={`Campaign visual ${idx + 1}`}
+                          className="w-full h-auto object-cover rounded-[0.875rem]"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement
+                            target.style.display = 'none'
+                            const fallback = target.nextElementSibling as HTMLElement
+                            if (fallback) fallback.style.display = 'flex'
+                          }}
+                        />
+                        <div className="hidden items-center justify-center h-48 bg-muted/30 text-muted-foreground text-sm">
+                          <FiImage className="h-8 w-8 mr-2 opacity-40" />
+                          Image could not be loaded
+                        </div>
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200 rounded-[0.875rem] flex items-end justify-end p-3 opacity-0 group-hover:opacity-100">
+                          <div className="flex gap-2">
+                            <a
+                              href={imageUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-2 bg-white/90 backdrop-blur-sm rounded-lg text-foreground hover:bg-white transition-colors shadow-md"
+                              title="Open in new tab"
+                            >
+                              <FiExternalLink className="h-4 w-4" />
+                            </a>
+                            <a
+                              href={imageUrl}
+                              download={`campaign-visual-${idx + 1}.png`}
+                              className="p-2 bg-white/90 backdrop-blur-sm rounded-lg text-foreground hover:bg-white transition-colors shadow-md"
+                              title="Download image"
+                            >
+                              <FiDownload className="h-4 w-4" />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-xs text-muted-foreground text-center">
+                        Campaign Visual {idx + 1} - Generated by DALL-E 3
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <FiImage className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                  <p className="text-sm text-muted-foreground mb-1">No campaign visuals generated yet</p>
+                  <p className="text-xs text-muted-foreground">Campaign images will be generated automatically when you create a new campaign using the Campaign Builder.</p>
+                </div>
               )}
             </CardContent>
           </Card>

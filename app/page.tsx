@@ -26,7 +26,7 @@ const TEAM_SYNC_ID = '69a1d2843ab18859fbddcd5a'
 const AGENTS = [
   { id: COORDINATOR_ID, name: 'Campaign Coordinator', purpose: 'Orchestrates campaign creation via research and content sub-agents' },
   { id: '69a1d23c030dec256cffea25', name: 'Trend Research Agent', purpose: 'Researches market trends and competitors (sub-agent)' },
-  { id: '69a1d23c030dec256cffea27', name: 'Content Creator Agent', purpose: 'Generates social posts, emails, taglines (sub-agent)' },
+  { id: '69a1d23c030dec256cffea27', name: 'Content Creator Agent', purpose: 'Generates social posts, emails, taglines, and campaign images (sub-agent)' },
   { id: DISTRIBUTOR_ID, name: 'Campaign Distributor', purpose: 'Distributes content to Twitter, Gmail, and Slack' },
   { id: TEAM_SYNC_ID, name: 'Team Sync Agent', purpose: 'Sends Slack messages and creates calendar events' },
 ]
@@ -67,6 +67,10 @@ const SAMPLE_CAMPAIGN_DATA: CampaignData = {
     'Trusted by 500+ enterprises worldwide',
     'Enterprise-grade security with platform-agnostic integration',
     'Outperforms competitors in workflow automation benchmarks',
+  ],
+  image_description: 'A sleek, modern banner featuring AI productivity tools with a futuristic blue-orange gradient background and abstract circuit patterns.',
+  campaign_images: [
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop'
   ],
 }
 
@@ -164,7 +168,8 @@ Please provide:
 3. Social media posts for the selected channels with hashtags
 4. An email campaign with subject line, preview text, body, and CTA
 5. Campaign taglines
-6. Key messages`
+6. Key messages
+7. A campaign visual/banner image that matches the campaign theme and audience - generate an eye-catching, professional image suitable for social media headers and email banners`
 
       const result = await callAIAgent(message, COORDINATOR_ID)
 
@@ -174,7 +179,24 @@ Please provide:
           data = parseLLMJson(result.raw_response || result.response?.message)
         }
         if (data && typeof data === 'object') {
-          setCampaignData(data as CampaignData)
+          // Extract campaign images from module_outputs (top-level, from Content Creator sub-agent with DALL-E 3)
+          const artifactFiles = result.module_outputs?.artifact_files
+          const campaignImages: string[] = []
+          if (Array.isArray(artifactFiles)) {
+            artifactFiles.forEach((file: any) => {
+              if (file?.file_url) {
+                campaignImages.push(file.file_url)
+              }
+            })
+          }
+
+          const enrichedData: CampaignData = {
+            ...(data as CampaignData),
+            campaign_images: campaignImages.length > 0 ? campaignImages : undefined,
+            image_description: (data as any)?.image_description ?? undefined,
+          }
+
+          setCampaignData(enrichedData)
           setHasRealData(true)
           const newCampaign: CampaignRecord = {
             id: String(Date.now()),
